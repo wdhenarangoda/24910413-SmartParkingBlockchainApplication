@@ -52,7 +52,7 @@ contract SmartParkingBlockchainApp {
     }
 
     // Register a sensor device with a unique device ID
-    modifier uniqueSensor(bytes32 deviceId) { require(!sensors[deviceId].exists, "Sensor already registered"); _; } // No duplicate sensor
+    modifier uniqueSensor(bytes32 deviceId) { require(!sensors[deviceId].exists, "Sensor already registered"); _; } 
 
     function registerSensor(bytes32 deviceId, string calldata location)
         external
@@ -63,9 +63,15 @@ contract SmartParkingBlockchainApp {
     }
 
     // Register a service point with a unique point ID
-    function registerServicePoint(bytes32 pointId, string calldata name, string calldata location) external {
-        require(!servicePoints[pointId].exists, "Service point already registered");
-        servicePoints[pointId] = ServicePoint(pointId, name, location, msg.sender, true);
+    modifier uniqueServicePoint(bytes32 pointId) { require(!servicePoints[pointId].exists, "Service point already registered"); _; } 
+
+    function registerServicePoint(bytes32 pointId, string calldata name, string calldata location)
+        external
+        uniqueServicePoint(pointId)
+    {
+        require(bytes(name).length > 0, "Name required"); // Validate
+        require(bytes(location).length > 0, "Location required"); // Validate
+        servicePoints[pointId] = ServicePoint(pointId, name, location, msg.sender, true); // Save
     }
 }
 
