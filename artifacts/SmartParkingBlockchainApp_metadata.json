@@ -4,7 +4,115 @@
 	},
 	"language": "Solidity",
 	"output": {
-		"abi": [],
+		"abi": [
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "drivers",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "homeAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "licenseId",
+						"type": "string"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "sensors",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "servicePoints",
+				"outputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pointId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					},
+					{
+						"internalType": "address",
+						"name": "owner",
+						"type": "address"
+					},
+					{
+						"internalType": "bool",
+						"name": "exists",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
 		"devdoc": {
 			"kind": "dev",
 			"methods": {},
@@ -33,11 +141,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x9d37dc6e94ef66b2b82d09adcf2612c416295dc3847b581e4aa70ab08a9b0a0b",
+			"keccak256": "0x12fef1edbad7f882829a87b9b76bac64a433d31dd477c88609337330dc5b550f",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://eef16f373c335580dba94e1faf4c5ac5fae0aea4a2ade0ea3a4c6cd7d4acb555",
-				"dweb:/ipfs/QmUYrjWAfrkdXfAeoyPrDEw7JXQZzYUucGQWF1hNtD7NV1"
+				"bzz-raw://fa4d297a27425014f1d108206d5f8cfaad7c4bbb5732f5da3e12241592dfe308",
+				"dweb:/ipfs/QmPkmwyCMmNtQUTaxqVPyGdGrD9dD6zB5yiKiEyf9YJBv5"
 			]
 		}
 	},

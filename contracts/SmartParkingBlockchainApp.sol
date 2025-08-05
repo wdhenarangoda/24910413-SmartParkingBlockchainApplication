@@ -29,5 +29,14 @@ contract SmartParkingBlockchainApp {
         address owner; // Registrar address
         bool exists; // Existence flag
     }
+
+     // Mapping for registered drivers by address
+    mapping(address => Driver) public drivers;
+
+    // Mapping for registered sensor devices by device ID
+    mapping(bytes32 => SensorDevice) public sensors;
+
+    // Mapping for registered service points by point ID
+    mapping(bytes32 => ServicePoint) public servicePoints;
 }
 
