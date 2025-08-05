@@ -38,5 +38,23 @@ contract SmartParkingBlockchainApp {
 
     // Mapping for registered service points by point ID
     mapping(bytes32 => ServicePoint) public servicePoints;
+
+        // Register a new driver (caller address is used as key)
+    function registerDriver(string calldata name, string calldata homeAddress, string calldata licenseId) external {
+        require(!drivers[msg.sender].exists, "Driver already registered");
+        drivers[msg.sender] = Driver(name, homeAddress, licenseId, true);
+    }
+
+    // Register a sensor device with a unique device ID
+    function registerSensor(bytes32 deviceId, string calldata location) external {
+        require(!sensors[deviceId].exists, "Sensor already registered");
+        sensors[deviceId] = SensorDevice(deviceId, location, msg.sender, true);
+    }
+
+    // Register a service point with a unique point ID
+    function registerServicePoint(bytes32 pointId, string calldata name, string calldata location) external {
+        require(!servicePoints[pointId].exists, "Service point already registered");
+        servicePoints[pointId] = ServicePoint(pointId, name, location, msg.sender, true);
+    }
 }
 

@@ -42,6 +42,70 @@
 			{
 				"inputs": [
 					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "homeAddress",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "licenseId",
+						"type": "string"
+					}
+				],
+				"name": "registerDriver",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					}
+				],
+				"name": "registerSensor",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pointId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "name",
+						"type": "string"
+					},
+					{
+						"internalType": "string",
+						"name": "location",
+						"type": "string"
+					}
+				],
+				"name": "registerServicePoint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
 						"internalType": "bytes32",
 						"name": "",
 						"type": "bytes32"
@@ -141,11 +205,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x12fef1edbad7f882829a87b9b76bac64a433d31dd477c88609337330dc5b550f",
+			"keccak256": "0x02c5416a9e02807b943dfa693838a8040817bf94182c30a43caa0f15b0d9b200",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://fa4d297a27425014f1d108206d5f8cfaad7c4bbb5732f5da3e12241592dfe308",
-				"dweb:/ipfs/QmPkmwyCMmNtQUTaxqVPyGdGrD9dD6zB5yiKiEyf9YJBv5"
+				"bzz-raw://9c3366a49d6f8fd3ca0a6992937d48885fec1480e1048da4f5348d66fc5fc6b6",
+				"dweb:/ipfs/QmdRDvXBCxy1PJyTLz2ZoiVeZ5TPieXw7WWi2pfkeVSTFt"
 			]
 		}
 	},
