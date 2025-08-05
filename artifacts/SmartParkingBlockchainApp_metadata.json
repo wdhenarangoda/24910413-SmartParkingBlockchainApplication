@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.30+commit.73712a01"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/SmartParkingBlockchainApp.sol": "SmartParkingBlockchainApp"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/SmartParkingBlockchainApp.sol": {
+			"keccak256": "0x14b2c88d91ae33c91ce9c0226498bb86b9c3740aef5419e9260d612728bba3e3",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://58367b6642a3e2eb0056deb95e07cd4a5d72602cc33b53c1327a350c8d8c743b",
+				"dweb:/ipfs/QmS8SadWHQeAuhvA8d3RgNh63Yh6QKp3KF6km8gkJWf633"
+			]
+		}
+	},
+	"version": 1
+}
