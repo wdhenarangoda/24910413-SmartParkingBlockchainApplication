@@ -39,7 +39,12 @@ contract ParkingRewardToken {
     balanceOf[to] += amount; // add to recipient
     emit Transfer(from, to, amount); // log the transfer
     }
-    
+
+    function transfer(address to, uint256 amount) external returns (bool) {
+    _transfer(msg.sender, to, amount); // move tokens from sender to recipient
+    return true; // indicate success
+    }
+
 }   
     
 
