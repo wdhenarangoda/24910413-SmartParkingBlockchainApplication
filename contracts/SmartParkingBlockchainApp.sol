@@ -10,6 +10,7 @@ contract ParkingRewardToken {
     string public symbol;
     uint8 public immutable decimals = 18;
     uint256 public totalSupply;
+    address public immutable minter;
 
     mapping(address => uint256) public balanceOf; // balance per address
     mapping(address => mapping(address => uint256)) public allowance; // spender allowance per owner
@@ -17,9 +18,10 @@ contract ParkingRewardToken {
     event Transfer(address indexed from, address indexed to, uint256 value); // emitted on token transfer
     event Approval(address indexed owner, address indexed spender, uint256 value); // emitted on approval
 
-    constructor(string memory _name, string memory _symbol) {
+    constructor(string memory _name, string memory _symbol, address _minter) {
         name = _name;   // set the token name at deployment
         symbol = _symbol; // set the token symbol at deployment
+         minter = _minter; // set SmartParking contract as the minter
     }
 }   
     
