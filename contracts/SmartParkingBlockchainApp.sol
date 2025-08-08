@@ -13,6 +13,9 @@ contract ParkingRewardToken {
 
     mapping(address => uint256) public balanceOf; // balance per address
     mapping(address => mapping(address => uint256)) public allowance; // spender allowance per owner
+
+    event Transfer(address indexed from, address indexed to, uint256 value); // emitted on token transfer
+    event Approval(address indexed owner, address indexed spender, uint256 value); // emitted on approval
 }   
     
 
