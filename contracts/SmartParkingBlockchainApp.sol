@@ -23,6 +23,13 @@ contract ParkingRewardToken {
         symbol = _symbol; // set the token symbol at deployment
          minter = _minter; // set SmartParking contract as the minter
     }
+
+    function mint(address to, uint256 amount) external {
+    require(msg.sender == minter, "Not minter"); // allow only the authorized minter
+    totalSupply += amount;                        // increase total supply
+    balanceOf[to] += amount;                      // credit recipient
+    emit Transfer(address(0), to, amount);        // emit standard mint-as-transfer event
+    }
 }   
     
 

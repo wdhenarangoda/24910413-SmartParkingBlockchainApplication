@@ -133,6 +133,24 @@
 				"type": "function"
 			},
 			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "to",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "mint",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
 				"inputs": [],
 				"name": "minter",
 				"outputs": [
@@ -213,11 +231,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x071eed08e07d0b160fc0e6b001a89448163595a4ccafc28f140b8a2309a03899",
+			"keccak256": "0x3da15762a98edfefa9701e6704fba1c1123fc3902a7f00048226acfaca410806",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8bed59a9d7efee70041add11039f33b18133c26d65e3d7f5c2889d0d25290858",
-				"dweb:/ipfs/QmdGw8z57DNkDvc5XWbNndJxJm1fxMCgMJjzF7uVswqgNR"
+				"bzz-raw://7188648c79ef1170baeeac7d0836c95df6abd8e99399ee99e01dc58682bd9212",
+				"dweb:/ipfs/QmZrSNbNgqHFNWY7Tqatv5CedmmEbYWfH7KqoqwYkdUPjb"
 			]
 		}
 	},
