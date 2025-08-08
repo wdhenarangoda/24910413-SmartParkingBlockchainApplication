@@ -45,6 +45,12 @@ contract ParkingRewardToken {
     return true; // indicate success
     }
 
+    function approve(address spender, uint256 amount) external returns (bool) {
+    allowance[msg.sender][spender] = amount; // set spender's allowance
+    emit Approval(msg.sender, spender, amount); // log approval
+    return true; // success
+    }
+
 }   
     
 

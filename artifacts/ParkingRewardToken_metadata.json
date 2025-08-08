@@ -104,6 +104,30 @@
 				"inputs": [
 					{
 						"internalType": "address",
+						"name": "spender",
+						"type": "address"
+					},
+					{
+						"internalType": "uint256",
+						"name": "amount",
+						"type": "uint256"
+					}
+				],
+				"name": "approve",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
 						"name": "",
 						"type": "address"
 					}
@@ -255,11 +279,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0xc20a1d18bc5301bd61ce3ae3bdf91390373750e1ec23f0efbd4868aca6d97c77",
+			"keccak256": "0x509fe51d5edc97d17018500ee8305e0192c7f220320b7a5dd9cfbc9930148a13",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://cf0214c9e23c6008579bd3d83d63fd4bd9a4f822b503b20cd7d9306e1ca37e0f",
-				"dweb:/ipfs/QmWbpbK4rhUA2BPznLqJSYPxt6ozSLLcuaDswocZdRBcjC"
+				"bzz-raw://fe80cd181b6d780844c4902d13c06227d98d8b796590421a692ccc9e3117da8a",
+				"dweb:/ipfs/QmRvuNCA4fVdPaotBq3iE1rSQmHjh3CS28MsDZwYHMXqab"
 			]
 		}
 	},
