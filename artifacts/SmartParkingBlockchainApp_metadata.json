@@ -6,6 +6,50 @@
 	"output": {
 		"abi": [
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "address",
+						"name": "driver",
+						"type": "address"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "message",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "count",
+						"type": "uint256"
+					}
+				],
+				"name": "DriverReportSubmitted",
+				"type": "event"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "address",
+						"name": "",
+						"type": "address"
+					}
+				],
+				"name": "driverReportCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -175,6 +219,19 @@
 				],
 				"stateMutability": "view",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "string",
+						"name": "message",
+						"type": "string"
+					}
+				],
+				"name": "submitDriverReport",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -205,11 +262,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x6a06c413595adbcbcd04826bb802b051da6f5290a312b5680b79f55fac51145a",
+			"keccak256": "0xd1c8ddeda5c16385fac19a670897b5b50a5346b42ecd852f40a26cbfcb1c3df8",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://318a56589427c143880bfc016d6356823cb703ef83f608d8b13d3a5800f9fdf7",
-				"dweb:/ipfs/QmPr6tLUTAMqp4FEqxq6dU5rVCHd1QsPCarGH27SWJsz4t"
+				"bzz-raw://35232c24723cb47f819316c6ba8daf57df5e80f55ec3a2b22d87ed38417028fd",
+				"dweb:/ipfs/Qmdr4UpivpgeRGG5DVPSSFWz1m1dRB26dnPef3izs3QTEg"
 			]
 		}
 	},

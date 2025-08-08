@@ -39,8 +39,20 @@ contract SmartParkingBlockchainApp {
     // Mapping for registered service points by point ID
     mapping(bytes32 => ServicePoint) public servicePoints;
 
+    // Mapping how many reports each driver submits
+    mapping(address => uint256) public driverReportCount;
+
+    // Emits when a driver submits a report
+    event DriverReportSubmitted(address indexed driver, string message, uint256 count);
+
         // Register a new driver
     modifier notRegisteredDriver() { require(!drivers[msg.sender].exists, "Driver already registered"); _; }
+
+    // Ensures only registered drivers submit reports
+    modifier registeredDriver() { 
+    require(drivers[msg.sender].exists, "Not a registered driver"); 
+    _; 
+    }
 
     function registerDriver(string calldata name, string calldata homeAddress, string calldata licenseId)
         external
@@ -73,5 +85,16 @@ contract SmartParkingBlockchainApp {
         require(bytes(location).length > 0, "Location required"); // Validate
         servicePoints[pointId] = ServicePoint(pointId, name, location, msg.sender, true); // Save
     }
+
+    // Allows registered drivers to submit a parking-related report
+        function submitDriverReport(string calldata message)
+    external
+    registeredDriver // Ensures caller is a registered driver
+{
+    require(bytes(message).length > 0, "Message required"); // Prevent empty reports
+    uint256 newCount = ++driverReportCount[msg.sender]; // Increment and store report count
+    emit DriverReportSubmitted(msg.sender, message, newCount); // Emit log for record keeping
+}
+
 }
 
