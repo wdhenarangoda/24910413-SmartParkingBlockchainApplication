@@ -4,6 +4,14 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+// Define ERC-20 reward token entity details
+contract ParkingRewardToken {
+    string public name;
+    string public symbol;
+    uint8 public immutable decimals = 18;
+    uint256 public totalSupply;
+    }   
+
 contract SmartParkingBlockchainApp {
     // Driver Profile
     struct Driver {
@@ -29,6 +37,7 @@ contract SmartParkingBlockchainApp {
         address owner; // Registrar address
         bool exists; // Existence flag
     }
+
 
      // Mapping for registered drivers by address
     mapping(address => Driver) public drivers;
