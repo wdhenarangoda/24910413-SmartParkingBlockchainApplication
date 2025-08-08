@@ -48,11 +48,20 @@ contract SmartParkingBlockchainApp {
     // Mapping the last submitted value for each sensor
     mapping(bytes32 => int256) public lastSensorValue;
 
+    // Mapping how many events each service point logs
+    mapping(bytes32 => uint256) public servicePointEventCount;
+
+    // Mapping the last event note for each service point
+    mapping(bytes32 => string) public lastServicePointNote;
+
     // Emits when a driver submits a report
     event DriverReportSubmitted(address indexed driver, string message, uint256 count);
 
     // Emits when a sensor submits a reading
     event SensorReadingSubmitted(bytes32 indexed deviceId, int256 value, uint256 count);
+
+    // Emits when a service point logs an event
+    event ServicePointEventLogged(bytes32 indexed pointId, string note, uint256 count);
 
         // Register a new driver
     modifier notRegisteredDriver() { require(!drivers[msg.sender].exists, "Driver already registered"); _; }
@@ -98,6 +107,12 @@ contract SmartParkingBlockchainApp {
     // Register a service point with a unique point ID
     modifier uniqueServicePoint(bytes32 pointId) { require(!servicePoints[pointId].exists, "Service point already registered"); _; } 
 
+    // Ensures the service point is already registered
+    modifier servicePointExists(bytes32 pointId) {
+    require(servicePoints[pointId].exists, "Service point not found");
+    _;
+    }
+
     function registerServicePoint(bytes32 pointId, string calldata name, string calldata location)
         external
         uniqueServicePoint(pointId)
@@ -126,6 +141,17 @@ contract SmartParkingBlockchainApp {
     lastSensorValue[deviceId] = value; // Updates the last recorded reading
     uint256 newCount = ++sensorReadingCount[deviceId]; // Increments reading count
     emit SensorReadingSubmitted(deviceId, value, newCount); // Emits event
+    }
+
+    // Allows a registered service point to log an event with a descriptive note
+    function logServicePointEvent(bytes32 pointId, string calldata note)
+    external
+    servicePointExists(pointId) // Checks that the service point exists
+    {
+    require(bytes(note).length > 0, "Note required"); // Ensures note is not empty
+    lastServicePointNote[pointId] = note; // Updates the last note for this service point
+    uint256 newCount = ++servicePointEventCount[pointId]; // Increments event count
+    emit ServicePointEventLogged(pointId, note, newCount); // Emits event for logging
     }
 
 }

@@ -56,6 +56,31 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "pointId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "string",
+						"name": "note",
+						"type": "string"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "count",
+						"type": "uint256"
+					}
+				],
+				"name": "ServicePointEventLogged",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -125,6 +150,43 @@
 					}
 				],
 				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "lastServicePointNote",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "pointId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "string",
+						"name": "note",
+						"type": "string"
+					}
+				],
+				"name": "logServicePointEvent",
+				"outputs": [],
+				"stateMutability": "nonpayable",
 				"type": "function"
 			},
 			{
@@ -252,6 +314,25 @@
 						"type": "bytes32"
 					}
 				],
+				"name": "servicePointEventCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
 				"name": "servicePoints",
 				"outputs": [
 					{
@@ -343,11 +424,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x05003825182fbe7fb2acd0a753d850296602c780ea7c16c5e602adb7db101436",
+			"keccak256": "0xb0d746bee59e33b04e3fb76be7e23b7a143e3fa262470cdcb81a776b8be49645",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://4ad36cff1db43f6910dac691bd744f15bd94fb5e26080842b2e5fa0b45106b4f",
-				"dweb:/ipfs/QmRTvpEZ8yyrVTUy552LWpt1k8zm4QZovHzXCjLtK4VVgr"
+				"bzz-raw://49df1fed02fa32e93bf806535655a31e4509811041ac5e863d66d699624a10ac",
+				"dweb:/ipfs/QmcvdvxYnnpoTXVUUbVH27h1MQY7W4Mx6hX4Cch5CN7RtU"
 			]
 		}
 	},
