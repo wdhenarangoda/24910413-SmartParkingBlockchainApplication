@@ -16,6 +16,10 @@ contract ParkingRewardToken {
 
     event Transfer(address indexed from, address indexed to, uint256 value); // emitted on token transfer
     event Approval(address indexed owner, address indexed spender, uint256 value); // emitted on approval
+
+    constructor(string memory _name, string memory _symbol) {
+        name = _name;   // set the token name at deployment
+        symbol = _symbol; // set the token symbol at deployment
 }   
     
 
