@@ -116,6 +116,10 @@ contract SmartParkingBlockchainApp {
     // Mapping the last event note for each service point
     mapping(bytes32 => string) public lastServicePointNote;
 
+    // Reward token handle and fixed reward amount per driver report
+    ParkingRewardToken public rewardToken;
+    uint256 public constant REWARD_PER_REPORT = 10 * 10**18;
+
     // Emits when a driver submits a report
     event DriverReportSubmitted(address indexed driver, string message, uint256 count);
 
