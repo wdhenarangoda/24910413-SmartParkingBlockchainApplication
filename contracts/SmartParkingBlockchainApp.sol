@@ -10,7 +10,11 @@ contract ParkingRewardToken {
     string public symbol;
     uint8 public immutable decimals = 18;
     uint256 public totalSupply;
-    }   
+
+    mapping(address => uint256) public balanceOf; // balance per address
+    mapping(address => mapping(address => uint256)) public allowance; // spender allowance per owner
+}   
+    
 
 contract SmartParkingBlockchainApp {
     // Driver Profile
