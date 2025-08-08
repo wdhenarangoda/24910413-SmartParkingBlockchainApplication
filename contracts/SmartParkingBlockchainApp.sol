@@ -20,6 +20,7 @@ contract ParkingRewardToken {
     constructor(string memory _name, string memory _symbol) {
         name = _name;   // set the token name at deployment
         symbol = _symbol; // set the token symbol at deployment
+    }
 }   
     
 
