@@ -42,8 +42,17 @@ contract SmartParkingBlockchainApp {
     // Mapping how many reports each driver submits
     mapping(address => uint256) public driverReportCount;
 
+    // Mapping how many readings each sensor submits
+    mapping(bytes32 => uint256) public sensorReadingCount;
+
+    // Mapping the last submitted value for each sensor
+    mapping(bytes32 => int256) public lastSensorValue;
+
     // Emits when a driver submits a report
     event DriverReportSubmitted(address indexed driver, string message, uint256 count);
+
+    // Emits when a sensor submits a reading
+    event SensorReadingSubmitted(bytes32 indexed deviceId, int256 value, uint256 count);
 
         // Register a new driver
     modifier notRegisteredDriver() { require(!drivers[msg.sender].exists, "Driver already registered"); _; }
@@ -65,6 +74,18 @@ contract SmartParkingBlockchainApp {
 
     // Register a sensor device with a unique device ID
     modifier uniqueSensor(bytes32 deviceId) { require(!sensors[deviceId].exists, "Sensor already registered"); _; } 
+
+    // Ensures the sensor is already registered
+    modifier sensorExists(bytes32 deviceId) {
+    require(sensors[deviceId].exists, "Sensor not found");
+    _;
+    }
+
+    // Ensures only the owner of the sensor can submit readings
+    modifier onlySensorOwner(bytes32 deviceId) {
+    require(sensors[deviceId].owner == msg.sender, "Not sensor owner");
+    _;
+    }
 
     function registerSensor(bytes32 deviceId, string calldata location)
         external
@@ -90,11 +111,22 @@ contract SmartParkingBlockchainApp {
         function submitDriverReport(string calldata message)
     external
     registeredDriver // Ensures caller is a registered driver
-{
+    {
     require(bytes(message).length > 0, "Message required"); // Prevent empty reports
     uint256 newCount = ++driverReportCount[msg.sender]; // Increment and store report count
     emit DriverReportSubmitted(msg.sender, message, newCount); // Emit log for record keeping
-}
+    }
+
+    // Allows the registered owner of a sensor to submit a reading
+    function submitSensorReading(bytes32 deviceId, int256 value)
+    external
+    sensorExists(deviceId)       // Checks that the sensor exists
+    onlySensorOwner(deviceId)    // Checks that the caller owns the sensor
+    {
+    lastSensorValue[deviceId] = value; // Updates the last recorded reading
+    uint256 newCount = ++sensorReadingCount[deviceId]; // Increments reading count
+    emit SensorReadingSubmitted(deviceId, value, newCount); // Emits event
+    }
 
 }
 

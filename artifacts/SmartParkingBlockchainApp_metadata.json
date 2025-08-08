@@ -31,6 +31,31 @@
 				"type": "event"
 			},
 			{
+				"anonymous": false,
+				"inputs": [
+					{
+						"indexed": true,
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"indexed": false,
+						"internalType": "int256",
+						"name": "value",
+						"type": "int256"
+					},
+					{
+						"indexed": false,
+						"internalType": "uint256",
+						"name": "count",
+						"type": "uint256"
+					}
+				],
+				"name": "SensorReadingSubmitted",
+				"type": "event"
+			},
+			{
 				"inputs": [
 					{
 						"internalType": "address",
@@ -78,6 +103,25 @@
 						"internalType": "bool",
 						"name": "exists",
 						"type": "bool"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "lastSensorValue",
+				"outputs": [
+					{
+						"internalType": "int256",
+						"name": "",
+						"type": "int256"
 					}
 				],
 				"stateMutability": "view",
@@ -145,6 +189,25 @@
 				"name": "registerServicePoint",
 				"outputs": [],
 				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "",
+						"type": "bytes32"
+					}
+				],
+				"name": "sensorReadingCount",
+				"outputs": [
+					{
+						"internalType": "uint256",
+						"name": "",
+						"type": "uint256"
+					}
+				],
+				"stateMutability": "view",
 				"type": "function"
 			},
 			{
@@ -232,6 +295,24 @@
 				"outputs": [],
 				"stateMutability": "nonpayable",
 				"type": "function"
+			},
+			{
+				"inputs": [
+					{
+						"internalType": "bytes32",
+						"name": "deviceId",
+						"type": "bytes32"
+					},
+					{
+						"internalType": "int256",
+						"name": "value",
+						"type": "int256"
+					}
+				],
+				"name": "submitSensorReading",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
 			}
 		],
 		"devdoc": {
@@ -262,11 +343,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0xd1c8ddeda5c16385fac19a670897b5b50a5346b42ecd852f40a26cbfcb1c3df8",
+			"keccak256": "0x05003825182fbe7fb2acd0a753d850296602c780ea7c16c5e602adb7db101436",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://35232c24723cb47f819316c6ba8daf57df5e80f55ec3a2b22d87ed38417028fd",
-				"dweb:/ipfs/Qmdr4UpivpgeRGG5DVPSSFWz1m1dRB26dnPef3izs3QTEg"
+				"bzz-raw://4ad36cff1db43f6910dac691bd744f15bd94fb5e26080842b2e5fa0b45106b4f",
+				"dweb:/ipfs/QmRTvpEZ8yyrVTUy552LWpt1k8zm4QZovHzXCjLtK4VVgr"
 			]
 		}
 	},
