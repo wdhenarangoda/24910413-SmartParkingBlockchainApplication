@@ -308,11 +308,11 @@
 	},
 	"sources": {
 		"contracts/SmartParkingBlockchainApp.sol": {
-			"keccak256": "0x413770b5f6ad19b5ce17ca9f7b310ffb174425a6b0cdc398ec782d055986b817",
+			"keccak256": "0x63ed8e09e932c7550d6944a1e7a03513496cd88007ace43262e8969ace1fa50d",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://f8aecf24043621b281df9f90507761f5cf3bc589f3ad3972383ce59204604cbd",
-				"dweb:/ipfs/QmZytQhtiXhcwRobDSkwqk4MzhkcTiExb9gDT598v6Xa6f"
+				"bzz-raw://b55ea171a8ae65ca651892bc750b94c932bc7f35aca87313c818251d060454f0",
+				"dweb:/ipfs/QmVA2guJ8Cos6mNX9spNTEP2nm42ZfPTRpxBTtfbkgDV5A"
 			]
 		}
 	},

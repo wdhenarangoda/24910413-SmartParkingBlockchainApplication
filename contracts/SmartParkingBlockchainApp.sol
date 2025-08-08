@@ -120,6 +120,15 @@ contract SmartParkingBlockchainApp {
     ParkingRewardToken public rewardToken;
     uint256 public constant REWARD_PER_REPORT = 10 * 10**18;
 
+    constructor() {
+    // Deploy the reward token and set this contract as the minter
+    rewardToken = new ParkingRewardToken(
+        "Parking Reward Token",
+        "PRT",
+        address(this) // this contract will have minting rights
+    );
+}
+
     // Emits when a driver submits a report
     event DriverReportSubmitted(address indexed driver, string message, uint256 count);
 
