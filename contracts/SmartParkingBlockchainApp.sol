@@ -30,6 +30,16 @@ contract ParkingRewardToken {
     balanceOf[to] += amount;                      // credit recipient
     emit Transfer(address(0), to, amount);        // emit standard mint-as-transfer event
     }
+
+    function _transfer(address from, address to, uint256 amount) internal {
+    require(to != address(0), "Zero address"); // prevent sending to zero address
+    uint256 bal = balanceOf[from];
+    require(bal >= amount, "Balance too low"); // check balance
+    unchecked { balanceOf[from] = bal - amount; } // subtract from sender
+    balanceOf[to] += amount; // add to recipient
+    emit Transfer(from, to, amount); // log the transfer
+    }
+    
 }   
     
 
