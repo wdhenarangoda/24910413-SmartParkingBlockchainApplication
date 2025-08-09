@@ -21,49 +21,47 @@ contract ParkingRewardToken {
     constructor(string memory _name, string memory _symbol, address _minter) {
         name = _name;   // set the token name at deployment
         symbol = _symbol; // set the token symbol at deployment
-         minter = _minter; // set SmartParking contract as the minter
+        minter = _minter; // set SmartParking contract as the minter
     }
 
     function mint(address to, uint256 amount) external {
-    require(msg.sender == minter, "Not minter"); // allow only the authorized minter
-    totalSupply += amount;                        // increase total supply
-    balanceOf[to] += amount;                      // credit recipient
-    emit Transfer(address(0), to, amount);        // emit standard mint-as-transfer event
+        require(msg.sender == minter, "Not minter"); // allow only the authorized minter
+        totalSupply += amount;                        // increase total supply
+        balanceOf[to] += amount;                      // credit recipient
+        emit Transfer(address(0), to, amount);        // emit standard mint-as-transfer event
     }
 
     function _transfer(address from, address to, uint256 amount) internal {
-    require(to != address(0), "Zero address"); // prevent sending to zero address
-    uint256 bal = balanceOf[from];
-    require(bal >= amount, "Balance too low"); // check balance
-    unchecked { balanceOf[from] = bal - amount; } // subtract from sender
-    balanceOf[to] += amount; // add to recipient
-    emit Transfer(from, to, amount); // log the transfer
+        require(to != address(0), "Zero address"); // prevent sending to zero address
+        uint256 bal = balanceOf[from];
+        require(bal >= amount, "Balance too low"); // check balance
+        unchecked { balanceOf[from] = bal - amount; } // subtract from sender
+        balanceOf[to] += amount; // add to recipient
+        emit Transfer(from, to, amount); // log the transfer
     }
 
     function transfer(address to, uint256 amount) external returns (bool) {
-    _transfer(msg.sender, to, amount); // move tokens from sender to recipient
-    return true; // indicate success
+        _transfer(msg.sender, to, amount); // move tokens from sender to recipient
+        return true; // indicate success
     }
 
     function approve(address spender, uint256 amount) external returns (bool) {
-    allowance[msg.sender][spender] = amount; // set spender's allowance
-    emit Approval(msg.sender, spender, amount); // log approval
-    return true; // success
+        allowance[msg.sender][spender] = amount; // set spender's allowance
+        emit Approval(msg.sender, spender, amount); // log approval
+        return true; // success
     }
 
     function transferFrom(address from, address to, uint256 amount) external returns (bool) {
-    uint256 allowed = allowance[from][msg.sender]; // check current allowance
-    require(allowed >= amount, "Allowance too low"); // ensure enough approved
-    if (allowed != type(uint256).max) { // if not unlimited
-        allowance[from][msg.sender] = allowed - amount; // reduce allowance
-        emit Approval(from, msg.sender, allowance[from][msg.sender]); // log change
+        uint256 allowed = allowance[from][msg.sender]; // check current allowance
+        require(allowed >= amount, "Allowance too low"); // ensure enough approved
+        if (allowed != type(uint256).max) { // if not unlimited
+            allowance[from][msg.sender] = allowed - amount; // reduce allowance
+            emit Approval(from, msg.sender, allowance[from][msg.sender]); // log change
+        }
+        _transfer(from, to, amount); // move tokens
+        return true; // success
     }
-    _transfer(from, to, amount); // move tokens
-    return true; // success
-    }
-
 }   
-    
 
 contract SmartParkingBlockchainApp {
     // Driver Profile
@@ -71,6 +69,7 @@ contract SmartParkingBlockchainApp {
         string name; // Driver name
         string homeAddress; // Driver address
         string licenseId; // Driver license or ID
+        address registeredBy; // Which wallet registered this driver
         bool exists; // Existence flag
     }
 
@@ -91,9 +90,8 @@ contract SmartParkingBlockchainApp {
         bool exists; // Existence flag
     }
 
-
-     // Mapping for registered drivers by address
-    mapping(address => Driver) public drivers;
+    // Mapping for registered drivers by driverId (hash of licenseId)
+    mapping(bytes32 => Driver) public drivers;
 
     // Mapping for registered sensor devices by device ID
     mapping(bytes32 => SensorDevice) public sensors;
@@ -101,8 +99,8 @@ contract SmartParkingBlockchainApp {
     // Mapping for registered service points by point ID
     mapping(bytes32 => ServicePoint) public servicePoints;
 
-    // Mapping how many reports each driver submits
-    mapping(address => uint256) public driverReportCount;
+    // Mapping how many reports each driver submits (keyed by driverId now)
+    mapping(bytes32 => uint256) public driverReportCount;
 
     // Mapping how many readings each sensor submits
     mapping(bytes32 => uint256) public sensorReadingCount;
@@ -121,13 +119,13 @@ contract SmartParkingBlockchainApp {
     uint256 public constant REWARD_PER_REPORT = 10 * 10**18;
 
     constructor() {
-    // Deploy the reward token and set this contract as the minter
-    rewardToken = new ParkingRewardToken(
-        "Parking Reward Token",
-        "PRT",
-        address(this) // this contract will have minting rights
-    );
-}
+        // Deploy the reward token and set this contract as the minter
+        rewardToken = new ParkingRewardToken(
+            "Parking Reward Token",
+            "PRT",
+            address(this) // this contract will have minting rights
+        );
+    }
 
     // Emits when a driver submits a report
     event DriverReportSubmitted(address indexed driver, string message, uint256 count);
@@ -138,22 +136,33 @@ contract SmartParkingBlockchainApp {
     // Emits when a service point logs an event
     event ServicePointEventLogged(bytes32 indexed pointId, string note, uint256 count);
 
-        // Register a new driver
-    modifier notRegisteredDriver() { require(!drivers[msg.sender].exists, "Driver already registered"); _; }
-
-    // Ensures only registered drivers submit reports
-    modifier registeredDriver() { 
-    require(drivers[msg.sender].exists, "Not a registered driver"); 
-    _; 
-    }
-
+    // Register a new driver
     function registerDriver(string calldata name, string calldata homeAddress, string calldata licenseId)
         external
-        notRegisteredDriver
     {
         require(bytes(name).length > 0, "Name required"); // Validate
+        require(bytes(homeAddress).length > 0, "Address required"); // Validate
         require(bytes(licenseId).length > 0, "License required"); // Validate
-        drivers[msg.sender] = Driver(name, homeAddress, licenseId, true); // Save
+
+        bytes32 driverId = keccak256(abi.encodePacked(licenseId)); // Unique driver key
+        require(!drivers[driverId].exists, "Driver already registered"); // Ensure uniqueness
+
+        // Save the driver
+        drivers[driverId] = Driver({
+            name: name,
+            homeAddress: homeAddress,
+            licenseId: licenseId,
+            registeredBy: msg.sender, // store who registered them
+            exists: true
+        });
+    }
+
+    // Ensures only the correct registered driver can submit reports
+    modifier registeredDriver(string calldata licenseId) {
+        bytes32 driverId = keccak256(abi.encodePacked(licenseId));
+        require(drivers[driverId].exists, "Not a registered driver");
+        require(drivers[driverId].registeredBy == msg.sender, "You did not register this driver");
+        _;
     }
 
     // Register a sensor device with a unique device ID
@@ -161,14 +170,14 @@ contract SmartParkingBlockchainApp {
 
     // Ensures the sensor is already registered
     modifier sensorExists(bytes32 deviceId) {
-    require(sensors[deviceId].exists, "Sensor not found");
-    _;
+        require(sensors[deviceId].exists, "Sensor not found");
+        _;
     }
 
     // Ensures only the owner of the sensor can submit readings
     modifier onlySensorOwner(bytes32 deviceId) {
-    require(sensors[deviceId].owner == msg.sender, "Not sensor owner");
-    _;
+        require(sensors[deviceId].owner == msg.sender, "Not sensor owner");
+        _;
     }
 
     function registerSensor(bytes32 deviceId, string calldata location)
@@ -184,8 +193,8 @@ contract SmartParkingBlockchainApp {
 
     // Ensures the service point is already registered
     modifier servicePointExists(bytes32 pointId) {
-    require(servicePoints[pointId].exists, "Service point not found");
-    _;
+        require(servicePoints[pointId].exists, "Service point not found");
+        _;
     }
 
     function registerServicePoint(bytes32 pointId, string calldata name, string calldata location)
@@ -198,36 +207,39 @@ contract SmartParkingBlockchainApp {
     }
 
     // Allows registered drivers to submit a parking-related report
-        function submitDriverReport(string calldata message)
-    external
-    registeredDriver // Ensures caller is a registered driver
+    function submitDriverReport(string calldata licenseId, string calldata message)
+        external
+        registeredDriver(licenseId) // Ensures caller is a registered driver
     {
-    require(bytes(message).length > 0, "Message required"); // Prevent empty reports
-    uint256 newCount = ++driverReportCount[msg.sender]; // Increment and store report count
-    emit DriverReportSubmitted(msg.sender, message, newCount); // Emit log for record keeping
+        require(bytes(message).length > 0, "Message required"); // Prevent empty reports
+
+        bytes32 driverId = keccak256(abi.encodePacked(licenseId)); // Get driver key
+        uint256 newCount = ++driverReportCount[driverId]; // Increment and store report count
+        emit DriverReportSubmitted(msg.sender, message, newCount); // Emit log for record keeping
+
+        // Reward the driver
+        rewardToken.mint(msg.sender, REWARD_PER_REPORT);
     }
 
     // Allows the registered owner of a sensor to submit a reading
     function submitSensorReading(bytes32 deviceId, int256 value)
-    external
-    sensorExists(deviceId)       // Checks that the sensor exists
-    onlySensorOwner(deviceId)    // Checks that the caller owns the sensor
+        external
+        sensorExists(deviceId)       // Checks that the sensor exists
+        onlySensorOwner(deviceId)    // Checks that the caller owns the sensor
     {
-    lastSensorValue[deviceId] = value; // Updates the last recorded reading
-    uint256 newCount = ++sensorReadingCount[deviceId]; // Increments reading count
-    emit SensorReadingSubmitted(deviceId, value, newCount); // Emits event
+        lastSensorValue[deviceId] = value; // Updates the last recorded reading
+        uint256 newCount = ++sensorReadingCount[deviceId]; // Increments reading count
+        emit SensorReadingSubmitted(deviceId, value, newCount); // Emits event
     }
 
     // Allows a registered service point to log an event with a descriptive note
     function logServicePointEvent(bytes32 pointId, string calldata note)
-    external
-    servicePointExists(pointId) // Checks that the service point exists
+        external
+        servicePointExists(pointId) // Checks that the service point exists
     {
-    require(bytes(note).length > 0, "Note required"); // Ensures note is not empty
-    lastServicePointNote[pointId] = note; // Updates the last note for this service point
-    uint256 newCount = ++servicePointEventCount[pointId]; // Increments event count
-    emit ServicePointEventLogged(pointId, note, newCount); // Emits event for logging
+        require(bytes(note).length > 0, "Note required"); // Ensures note is not empty
+        lastServicePointNote[pointId] = note; // Updates the last note for this service point
+        uint256 newCount = ++servicePointEventCount[pointId]; // Increments event count
+        emit ServicePointEventLogged(pointId, note, newCount); // Emits event for logging
     }
-
 }
-
